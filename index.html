@@ -8,30 +8,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0f1c;
-      --sidebar-bg: #0d1424;
-      --card-bg: #111827;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --green: #34d399;     /* positive / accents */
-      --red: #f87171;       /* negative */
-      --border: #1e293b;
+      --bg: #f8fafc;                  /* Light background like in modern fintech designs */
+      --sidebar-bg: #ffffff;
+      --card-bg: #10b981;             /* Green cards */
+      --text: #ffffff;                /* White text on green cards */
+      --text-muted: #d1fae5;          /* Light green muted text */
+      --green: #10b981;               /* Main green */
+      --green-light: #34d399;
+      --green-dark: #059669;
+      --red: #fca5a5;                 /* Softer red for negative */
+      --border: #86efac;              /* Light green border */
       --radius: 16px;
-      --shadow: 0 10px 25px rgba(0,0,0,0.3);
+      --shadow: 0 10px 25px rgba(16,185,129,0.25); /* Green-tinted shadow */
     }
-
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: #0f172a;                 /* Dark text for main content */
       min-height: 100vh;
       font-size: 14px;
       line-height: 1.5;
     }
-
     .dashboard { display: flex; }
-
     /* Sidebar */
     .sidebar {
       width: 280px;
@@ -39,55 +38,49 @@
       height: 100vh;
       position: fixed;
       padding: 24px 20px;
-      border-right: 1px solid var(--border);
+      border-right: 1px solid #e2e8f0;
       overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border-right: 1px solid #e2e8f0;
     }
-
     .logo {
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 24px;
       font-weight: 700;
-      color: white;
+      color: var(--green-dark);
       margin-bottom: 40px;
     }
-
     .logo i { color: var(--green); font-size: 32px; }
-
     .menu-title {
-      color: var(--text-muted);
+      color: #64748b;
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
       margin: 24px 0 12px;
       letter-spacing: 0.5px;
     }
-
     .nav-link {
       display: flex;
       align-items: center;
       gap: 12px;
-      color: var(--text-muted);
+      color: #64748b;
       text-decoration: none;
       padding: 12px 16px;
       border-radius: 12px;
       margin-bottom: 4px;
       transition: all 0.2s;
     }
-
     .nav-link:hover, .nav-link.active {
-      background: rgba(52, 211, 153, 0.12);
-      color: var(--green);
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--green-dark);
     }
-
-    .nav-link.active { color: var(--green); font-weight: 600; }
-
+    .nav-link.active { color: var(--green-dark); font-weight: 600; }
     .nav-link i { font-size: 18px; width: 24px; text-align: center; }
-
     .logout {
       margin-top: 40px;
-      color: var(--text-muted);
+      color: #64748b;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -96,61 +89,51 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-
-    .logout:hover { background: rgba(248, 113, 113, 0.1); color: var(--red); }
-
+    .logout:hover { background: rgba(248, 113, 113, 0.1); color: #ef4444; }
     /* Main Content */
     .main {
       margin-left: 280px;
       flex: 1;
       padding: 24px 32px;
     }
-
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 32px;
     }
-
     .search-bar {
       position: relative;
       width: 360px;
     }
-
     .search-bar input {
       width: 100%;
       padding: 12px 16px 12px 48px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
+      background: white;
+      border: 1px solid #e2e8f0;
       border-radius: 999px;
-      color: var(--text);
+      color: #0f172a;
       font-size: 15px;
     }
-
-    .search-bar input::placeholder { color: var(--text-muted); }
-
+    .search-bar input::placeholder { color: #94a3b8; }
     .search-bar i {
       position: absolute;
       left: 16px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--text-muted);
+      color: #94a3b8;
     }
-
     .user-area {
       display: flex;
       align-items: center;
       gap: 20px;
     }
-
     .notification {
       font-size: 20px;
-      color: var(--text-muted);
+      color: #64748b;
       cursor: pointer;
       position: relative;
     }
-
     .notification::after {
       content: '';
       position: absolute;
@@ -158,99 +141,78 @@
       right: -4px;
       width: 10px;
       height: 10px;
-      background: var(--red);
+      background: #ef4444;
       border-radius: 50%;
-      border: 2px solid var(--sidebar-bg);
+      border: 2px solid white;
     }
-
     .user {
       display: flex;
       align-items: center;
       gap: 12px;
       cursor: pointer;
     }
-
     .user img {
       width: 44px;
       height: 44px;
       border-radius: 50%;
       object-fit: cover;
     }
-
-    .user-info strong { font-weight: 600; }
-    .user-info small { color: var(--text-muted); }
-
+    .user-info strong { font-weight: 600; color: #0f172a; }
+    .user-info small { color: #64748b; }
     /* Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
-
     .card {
       background: var(--card-bg);
       border-radius: var(--radius);
       padding: 24px;
       box-shadow: var(--shadow);
+      color: var(--text);
     }
-
     .stat-card {
       text-align: center;
     }
-
     .stat-icon {
       width: 64px;
       height: 64px;
-      background: rgba(52, 211, 153, 0.1);
+      background: rgba(255,255,255,0.2);
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 16px;
       font-size: 28px;
-      color: var(--green);
     }
-
-    .stat-title { font-size: 15px; color: var(--text-muted); margin-bottom: 8px; }
+    .stat-title { font-size: 15px; opacity: 0.9; margin-bottom: 8px; }
     .stat-value { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
     .stat-change {
       font-size: 14px;
       font-weight: 500;
     }
-    .positive { color: var(--green); }
+    .positive { opacity: 0.9; }
     .negative { color: var(--red); }
-
     .credit-card {
       grid-column: span 1;
-      background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%);
-      color: white;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-light) 100%);
     }
-
-    .credit-card .logo {
-      font-size: 28px;
-      margin-bottom: 40px;
-    }
-
     .credit-card .number {
       font-size: 24px;
       letter-spacing: 4px;
       margin: 32px 0 24px;
     }
-
     .credit-card .footer {
       display: flex;
       justify-content: space-between;
       font-size: 14px;
     }
-
     .actions {
       display: flex;
       gap: 12px;
       margin-top: 16px;
     }
-
     .btn {
       padding: 10px 20px;
       border-radius: 12px;
@@ -258,50 +220,41 @@
       cursor: pointer;
       border: none;
     }
-
-    .btn-primary { background: white; color: #0f172a; }
+    .btn-primary { background: rgba(255,255,255,0.25); color: white; }
     .btn-outline { background: transparent; border: 1px solid white; color: white; }
-
     .goals-section, .transactions-section {
       grid-column: span 2;
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: var(--radius);
+      background: white;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
     }
-
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
     }
-
-    .section-title { font-size: 18px; font-weight: 600; }
-
+    .section-title { font-size: 18px; font-weight: 600; color: #0f172a; }
     .dropdown {
-      background: var(--border);
+      background: #f1f5f9;
       padding: 6px 12px;
       border-radius: 8px;
       font-size: 13px;
-      color: var(--text);
+      color: #0f172a;
     }
-
     canvas { max-height: 320px; }
-
     .transaction-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 16px 0;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #e2e8f0;
     }
-
     .transaction-item:last-child { border-bottom: none; }
-
     .trans-icon {
       width: 48px;
       height: 48px;
-      background: rgba(52, 211, 153, 0.1);
+      background: rgba(16, 185, 129, 0.1);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -310,13 +263,10 @@
       color: var(--green);
       margin-right: 16px;
     }
-
-    .trans-desc strong { display: block; }
-    .trans-date { color: var(--text-muted); font-size: 13px; }
-
+    .trans-desc strong { display: block; color: #0f172a; }
+    .trans-date { color: #64748b; font-size: 13px; }
     .trans-amount.positive { color: var(--green); font-weight: 600; }
-    .trans-amount.negative { color: var(--red); font-weight: 600; }
-
+    .trans-amount.negative { color: #ef4444; font-weight: 600; }
     .see-more {
       display: block;
       text-align: center;
@@ -325,28 +275,30 @@
       font-weight: 600;
       text-decoration: none;
     }
-
     @media (max-width: 1200px) {
       .grid { grid-template-columns: 1fr 1fr; }
       .credit-card, .goals-section, .transactions-section { grid-column: span 2; }
     }
-
     @media (max-width: 992px) {
       .sidebar { width: 80px; padding: 24px 12px; }
       .sidebar .menu-title, .sidebar span:not(.logo span) { display: none; }
       .main { margin-left: 80px; }
       .search-bar { width: 240px; }
     }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .credit-card, .goals-section, .transactions-section { grid-column: span 1; }
+      .main { padding: 20px; }
+    }
   </style>
 </head>
 <body>
   <div class="dashboard">
-    <!-- Sidebar -->
+    <!-- Sidebar (unchanged except colors) -->
     <aside class="sidebar">
       <div class="logo">
         <i class="fas fa-leaf"></i> Bankas
       </div>
-
       <div class="menu-title">Menu</div>
       <nav>
         <a href="#" class="nav-link active"><i class="fas fa-th-large"></i> <span>Dashbord</span></a>
@@ -357,19 +309,16 @@
         <a href="#" class="nav-link"><i class="fas fa-chart-pie"></i> <span>Analytics</span></a>
         <a href="#" class="nav-link"><i class="fas fa-calendar-alt"></i> <span>Planning</span></a>
       </nav>
-
       <div class="menu-title">Other Menu</div>
       <nav>
         <a href="#" class="nav-link"><i class="fas fa-question-circle"></i> <span>Helps & Support</span></a>
         <a href="#" class="nav-link"><i class="fas fa-file-alt"></i> <span>Report</span></a>
         <a href="#" class="nav-link"><i class="fas fa-cog"></i> <span>Settings</span></a>
       </nav>
-
       <div class="logout">
         <i class="fas fa-sign-out-alt"></i> <span>Log out</span>
       </div>
     </aside>
-
     <!-- Main -->
     <main class="main">
       <header class="header">
@@ -377,36 +326,32 @@
           <i class="fas fa-search"></i>
           <input type="text" placeholder="Search...."/>
         </div>
-
         <div class="user-area">
           <div class="notification"><i class="far fa-bell"></i></div>
           <div class="user">
-            <img src="https://via.placeholder.com/44?text=RA" alt="Richard Azet">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
             <div class="user-info">
-              <strong>Richard Azet</strong><br/>
-              <small>@azett.</small>
+              <strong>Emmanuel Daniel</strong><br/>
+              <small>@emmanueld</small>
             </div>
           </div>
         </div>
       </header>
-
       <div class="grid">
         <!-- Balance -->
         <div class="card stat-card">
           <div class="stat-icon"><i class="fas fa-wallet"></i></div>
           <div class="stat-title">Balance</div>
-          <div class="stat-value">$592.323</div>
+          <div class="stat-value">$592,323</div>
           <div class="stat-change positive">Increase Than last week <span>(+3.5%)</span></div>
         </div>
-
         <!-- Income -->
         <div class="card stat-card">
           <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
           <div class="stat-title">Income</div>
-          <div class="stat-value">$149.513</div>
+          <div class="stat-value">$149,513</div>
           <div class="stat-change negative">Decline Than last week <span>(-3.5%)</span></div>
         </div>
-
         <!-- My Cards -->
         <div class="card credit-card">
           <div class="logo"><i class="fas fa-leaf"></i> Bankas</div>
@@ -415,11 +360,11 @@
           <div class="footer">
             <div>
               CardHolder Name<br/>
-              <strong>Richard Azet</strong>
+              <strong>Emmanuel Daniel</strong>
             </div>
             <div>
               Expiry Date<br/>
-              <strong>12/25</strong>
+              <strong>12/28</strong>
             </div>
           </div>
           <div class="actions">
@@ -428,35 +373,31 @@
           </div>
           <small style="display:block; margin-top:16px; text-align:center;">see more action</small>
         </div>
-
         <!-- Savings -->
         <div class="card stat-card">
           <div class="stat-icon"><i class="fas fa-piggy-bank"></i></div>
           <div class="stat-title">Savings</div>
-          <div class="stat-value">$79.290</div>
+          <div class="stat-value">$79,290</div>
           <div class="stat-change negative">Decline Than last week <span>(-3.5%)</span></div>
         </div>
-
         <!-- Expenses -->
         <div class="card stat-card">
           <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
           <div class="stat-title">Expenses</div>
-          <div class="stat-value">$198.560</div>
+          <div class="stat-value">$198,560</div>
           <div class="stat-change positive">Increase Than last week <span>(+3.5%)</span></div>
         </div>
-
         <!-- Income Goals -->
         <div class="goals-section card">
           <div class="section-header">
             <h3 class="section-title">Income Goals</h3>
             <div>
-              <span style="color:var(--green);">• Achieved</span> <span style="color:var(--text-muted);">• Target</span>
+              <span style="color:var(--green);">• Achieved</span> <span style="color:#64748b;">• Target</span>
               <select class="dropdown"><option>Monthly</option></select>
             </div>
           </div>
           <canvas id="goalsChart" height="180"></canvas>
         </div>
-
         <!-- History Transaction -->
         <div class="transactions-section card">
           <h3 class="section-title">History Transaction</h3>
@@ -470,10 +411,9 @@
             </div>
             <div class="trans-amount negative">- $30.00</div>
           </div>
-
           <div class="transaction-item">
             <div style="display:flex; align-items:center;">
-              <div class="trans-icon" style="background:rgba(248,113,113,0.1); color:var(--red);"><i class="fas fa-shopping-bag"></i></div>
+              <div class="trans-icon" style="background:rgba(248,113,113,0.1); color:#ef4444;"><i class="fas fa-shopping-bag"></i></div>
               <div>
                 <strong>Shopping at Okemart</strong>
                 <div class="trans-date">11 January 2024</div>
@@ -481,7 +421,6 @@
             </div>
             <div class="trans-amount negative">- $16.25</div>
           </div>
-
           <div class="transaction-item">
             <div style="display:flex; align-items:center;">
               <div class="trans-icon"><i class="fas fa-exchange-alt"></i></div>
@@ -492,46 +431,48 @@
             </div>
             <div class="trans-amount positive">+ $10.00</div>
           </div>
-
           <a href="#" class="see-more">See More</a>
         </div>
       </div>
     </main>
   </div>
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx = document.getElementById('goalsChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        datasets: [
-          {
-            label: 'Achieved',
-            data: [18, 22, 30, 35, 32, 28, 12, 15, 22],
-            backgroundColor: 'rgba(52, 211, 153, 0.8)',
-            borderRadius: 8,
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('goalsChart')?.getContext('2d');
+      if (ctx) {
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            datasets: [
+              {
+                label: 'Achieved',
+                data: [18, 22, 30, 35, 32, 28, 12, 15, 22],
+                backgroundColor: '#10b981',
+                borderRadius: 8,
+              },
+              {
+                label: 'Target',
+                data: [20, 30, 40, 35, 40, 30, 20, 20, 30],
+                backgroundColor: 'rgba(16,185,129,0.15)',
+                borderRadius: 8,
+              }
+            ]
           },
-          {
-            label: 'Target',
-            data: [20, 30, 40, 35, 40, 30, 20, 20, 30],
-            backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            borderRadius: 8,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { grid: { display: false }, ticks: { color: '#64748b' } },
+              y: {
+                grid: { color: 'rgba(226,232,240,0.4)' },
+                ticks: { color: '#64748b', callback: v => v + 'k' }
+              }
+            }
           }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.6)' } },
-          y: {
-            grid: { color: 'rgba(255,255,255,0.08)' },
-            ticks: { color: 'rgba(255,255,255,0.6)', callback: v => v + 'k' }
-          }
-        }
+        });
       }
     });
   </script>
