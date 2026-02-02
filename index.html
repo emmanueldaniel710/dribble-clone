@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinPro • Modern Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:          #f9fafb;
+      --card:        rgba(255,255,255,0.92);
+      --card-border: rgba(226,232,240,0.6);
+      --text:        #0f172a;
+      --text-muted:  #64748b;
+      --green:       #10b981;
+      --green-light: #6ee7b7;
+      --green-dark:  #047857;
+      --red:         #ef4444;
+      --radius:      20px;
+      --shadow:      0 8px 32px rgba(0,0,0,0.08);
+      --shadow-hover:0 20px 50px rgba(0,0,0,0.14);
+      --glass:       rgba(255,255,255,0.75);
+      --backdrop:    blur(16px);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 260px;
+      background: var(--glass);
+      backdrop-filter: var(--backdrop);
+      -webkit-backdrop-filter: var(--backdrop);
+      border-right: 1px solid var(--card-border);
+      position: fixed;
+      height: 100%;
+      padding: 1.8rem 1.2rem;
+      z-index: 100;
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--green), var(--green-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2.8rem;
+      text-align: center;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 1rem 1.2rem;
+      border-radius: 14px;
+      margin-bottom: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--green-dark);
+      background: rgba(16,185,129,0.08);
+      transform: translateX(6px);
+    }
+
+    .nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 60%;
+      background: var(--green);
+      border-radius: 2px;
+    }
+
+    /* ── Main ── */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 2.5rem 2rem;
+      transition: margin-left 0.4s ease;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .search {
+      background: var(--glass);
+      backdrop-filter: var(--backdrop);
+      border: 1px solid var(--card-border);
+      border-radius: 999px;
+      padding: 0.9rem 1.5rem 0.9rem 3.2rem;
+      width: 100%;
+      max-width: 460px;
+      font-size: 1rem;
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    .search:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+      transform: scale(1.02);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+    }
+
+    .bell {
+      font-size: 1.4rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .bell:hover { transform: scale(1.2) rotate(15deg); }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(16,185,129,0.25);
+      transition: transform 0.3s ease;
+    }
+
+    .avatar:hover { transform: scale(1.12); }
+
+    /* ── Cards ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: var(--backdrop);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      box-shadow: var(--shadow);
+      transition: all 0.45s cubic-bezier(0.34,1.56,0.64,1);
+      transform: perspective(1200px) rotateX(4deg) rotateY(4deg) translateZ(0);
+      opacity: 0;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: perspective(1200px) rotateX(0) rotateY(0) translateZ(12px);
+    }
+
+    .card:hover {
+      transform: perspective(1200px) rotateX(0) rotateY(0) translateZ(28px) scale(1.03);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .big-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--green-dark), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0.6rem 0;
+    }
+
+    .change {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+
+    /* Chart container */
+    .chart-wrapper {
+      height: 380px;
+      margin-top: 1.2rem;
+    }
+
+    /* Transactions section */
+    .transactions-list {
+      list-style: none;
+      margin-top: 1.2rem;
+    }
+
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--card-border);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+    }
+
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+
+    .transaction-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .trans-desc {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trans-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .trans-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .trans-amount {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* ── Mobile-first responsive ── */
+    @media (max-width: 1024px) {
+      .sidebar { width: 78px; padding: 1.5rem 0.8rem; }
+      .sidebar .nav-link span { display: none; }
+      .sidebar .logo { font-size: 1.5rem; }
+      .main { margin-left: 78px; padding: 1.8rem 1.5rem; }
+      .search { max-width: 340px; }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard { flex-direction: column; }
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(226,232,240,0.5);
+        padding: 1.2rem;
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .sidebar nav {
+        display: flex;
+        gap: 0.6rem;
+      }
+      .sidebar .nav-link {
+        min-width: 68px;
+        padding: 0.9rem 1rem;
+        flex-direction: column;
+        font-size: 0.82rem;
+      }
+      .sidebar .nav-link i { margin-bottom: 6px; font-size: 1.4rem; }
+      .sidebar .nav-link span { display: block; }
+      .sidebar .logo { display: none; }
+      .main { margin-left: 0; padding: 1.5rem 1.2rem; }
+      .header { flex-direction: column; align-items: stretch; }
+      .search { max-width: none; }
+      .grid { grid-template-columns: 1fr; gap: 1.6rem; }
+    }
+
+    @media (max-width: 480px) {
+      .main { padding: 1.2rem 1rem; }
+      .big-number { font-size: 2.1rem; }
+      .chart-wrapper { height: 320px; }
+      .transaction-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+      .trans-amount { align-self: flex-end; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="logo">FinPro</div>
+    <nav>
+      <a href="#" class="nav-link active"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="#" class="nav-link"><i class="fas fa-wallet"></i><span>Wallets</span></a>
+      <a href="#" class="nav-link"><i class="fas fa-exchange-alt"></i><span>Tx</span></a>
+      <a href="#" class="nav-link"><i class="fas fa-chart-pie"></i><span>Analytics</span></a>
+      <a href="#" class="nav-link"><i class="fas fa-users"></i><span>Team</span></a>
+    </nav>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <header class="header">
+      <div style="position:relative; flex:1; max-width:480px;">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search" placeholder="Search anything…" />
+      </div>
+      <div class="user-area">
+        <i class="far fa-bell bell"></i>
+        <img src="https://media.istockphoto.com/id/1300972574/photo/millennial-male-team-leader-organize-virtual-workshop-with-employees-online.jpg?s=612x612&w=0&k=20&c=uP9rHJJBDzMjwgApldFmvsm4Vyjl27KzSh0NHa7XTr4=" alt="Avatar" class="avatar">
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Total Balance</h3>
+        <div class="big-number">$248,920</div>
+        <div class="change positive"><i class="fas fa-arrow-up"></i> +8.4% this month</div>
+      </div>
+
+      <div class="card">
+        <h3>Monthly Income</h3>
+        <div class="big-number">$142,580</div>
+        <div class="change positive"><i class="fas fa-arrow-up"></i> +12.1%</div>
+      </div>
+
+      <div class="card">
+        <h3>Monthly Expenses</h3>
+        <div class="big-number">$68,450</div>
+        <div class="change negative"><i class="fas fa-arrow-down"></i> -3.2%</div>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>Revenue Trend • 2026</h3>
+        <div class="chart-wrapper">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <h3>Recent Transactions</h3>
+        <ul class="transactions-list">
+          <li class="transaction-item">
+            <div class="trans-desc">
+              <span class="trans-title">Salary Deposit</span>
+              <span class="trans-date">Feb 1, 2026 • 09:45 AM</span>
+            </div>
+            <span class="trans-amount positive">+$8,450.00</span>
+          </li>
+          <li class="transaction-item">
+            <div class="trans-desc">
+              <span class="trans-title">Cloud Hosting</span>
+              <span class="trans-date">Jan 30, 2026 • 02:20 PM</span>
+            </div>
+            <span class="trans-amount negative">-$320.00</span>
+          </li>
+          <li class="transaction-item">
+            <div class="trans-desc">
+              <span class="trans-title">Freelance Payment</span>
+              <span class="trans-date">Jan 28, 2026 • 11:10 AM</span>
+            </div>
+            <span class="trans-amount positive">+$4,200.00</span>
+          </li>
+          <li class="transaction-item">
+            <div class="trans-desc">
+              <span class="trans-title">Software Subscription</span>
+              <span class="trans-date">Jan 25, 2026 • 04:50 PM</span>
+            </div>
+            <span class="trans-amount negative">-$18.00</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+// Entrance animations
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, i) => {
+    setTimeout(() => card.classList.add('visible'), 120 * i);
+  });
+
+  const transItems = document.querySelectorAll('.transaction-item');
+  transItems.forEach((item, i) => {
+    setTimeout(() => item.classList.add('visible'), 200 + 150 * i);
+  });
+
+  // Chart
+  const ctx = document.getElementById('revenueChart')?.getContext('2d');
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [{
+          label: 'Revenue',
+          data: [72000,81000,68000,95000,112000,98000,128000,142000,155000,168000,182000,198000],
+          borderColor: 'rgba(16,185,129,0.9)',
+          backgroundColor: 'rgba(16,185,129,0.14)',
+          tension: 0.42,
+          fill: true,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: '#10b981',
+          pointBorderWidth: 3,
+          pointRadius: 5,
+          pointHoverRadius: 9,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: 'rgba(226,232,240,0.4)' }, ticks: { color: '#64748b' } },
+          y: { grid: { color: 'rgba(226,232,240,0.4)' }, ticks: { color: '#64748b' } }
+        },
+        interaction: { mode: 'index', intersect: false }
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>
