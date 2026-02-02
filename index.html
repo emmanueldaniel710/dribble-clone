@@ -3,142 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FinPro • Modern Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <title>Bankas - Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:          #f9fafb;
-      --card:        rgba(255,255,255,0.92);
-      --card-border: rgba(226,232,240,0.6);
-      --text:        #0f172a;
-      --text-muted:  #64748b;
-      --green:       #10b981;
-      --green-light: #6ee7b7;
-      --green-dark:  #047857;
-      --red:         #ef4444;
-      --radius:      20px;
-      --shadow:      0 8px 32px rgba(0,0,0,0.08);
-      --shadow-hover:0 20px 50px rgba(0,0,0,0.14);
-      --glass:       rgba(255,255,255,0.75);
-      --backdrop:    blur(16px);
+      --bg: #0a0f1c;
+      --sidebar-bg: #0d1424;
+      --card-bg: #111827;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --green: #34d399;     /* positive / accents */
+      --red: #f87171;       /* negative */
+      --border: #1e293b;
+      --radius: 16px;
+      --shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      overflow-x: hidden;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
-    .dashboard {
-      display: flex;
-      min-height: 100vh;
-    }
+    .dashboard { display: flex; }
 
-    /* ── Sidebar ── */
+    /* Sidebar */
     .sidebar {
-      width: 260px;
-      background: var(--glass);
-      backdrop-filter: var(--backdrop);
-      -webkit-backdrop-filter: var(--backdrop);
-      border-right: 1px solid var(--card-border);
+      width: 280px;
+      background: var(--sidebar-bg);
+      height: 100vh;
       position: fixed;
-      height: 100%;
-      padding: 1.8rem 1.2rem;
-      z-index: 100;
-      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      padding: 24px 20px;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
     }
 
     .logo {
-      font-size: 2rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--green), var(--green-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 2.8rem;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .logo i { color: var(--green); font-size: 32px; }
+
+    .menu-title {
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin: 24px 0 12px;
+      letter-spacing: 0.5px;
     }
 
     .nav-link {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       color: var(--text-muted);
       text-decoration: none;
-      padding: 1rem 1.2rem;
-      border-radius: 14px;
-      margin-bottom: 8px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 4px;
+      transition: all 0.2s;
     }
 
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--green-dark);
-      background: rgba(16,185,129,0.08);
-      transform: translateX(6px);
+    .nav-link:hover, .nav-link.active {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--green);
     }
 
-    .nav-link.active::before {
-      content: '';
-      position: absolute;
-      left: -8px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 60%;
-      background: var(--green);
-      border-radius: 2px;
+    .nav-link.active { color: var(--green); font-weight: 600; }
+
+    .nav-link i { font-size: 18px; width: 24px; text-align: center; }
+
+    .logout {
+      margin-top: 40px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    /* ── Main ── */
+    .logout:hover { background: rgba(248, 113, 113, 0.1); color: var(--red); }
+
+    /* Main Content */
     .main {
-      margin-left: 260px;
+      margin-left: 280px;
       flex: 1;
-      padding: 2.5rem 2rem;
-      transition: margin-left 0.4s ease;
+      padding: 24px 32px;
     }
 
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      gap: 1.5rem;
+      margin-bottom: 32px;
     }
 
-    .search {
-      background: var(--glass);
-      backdrop-filter: var(--backdrop);
-      border: 1px solid var(--card-border);
-      border-radius: 999px;
-      padding: 0.9rem 1.5rem 0.9rem 3.2rem;
+    .search-bar {
+      position: relative;
+      width: 360px;
+    }
+
+    .search-bar input {
       width: 100%;
-      max-width: 460px;
-      font-size: 1rem;
+      padding: 12px 16px 12px 48px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
       color: var(--text);
-      transition: all 0.3s ease;
+      font-size: 15px;
     }
 
-    .search:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
-      transform: scale(1.02);
-    }
+    .search-bar input::placeholder { color: var(--text-muted); }
 
-    .search-icon {
+    .search-bar i {
       position: absolute;
-      left: 1.2rem;
+      left: 16px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
@@ -147,330 +141,399 @@
     .user-area {
       display: flex;
       align-items: center;
-      gap: 1.6rem;
+      gap: 20px;
     }
 
-    .bell {
-      font-size: 1.4rem;
+    .notification {
+      font-size: 20px;
       color: var(--text-muted);
       cursor: pointer;
-      transition: transform 0.3s ease;
+      position: relative;
     }
 
-    .bell:hover { transform: scale(1.2) rotate(15deg); }
+    .notification::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 10px;
+      height: 10px;
+      background: var(--red);
+      border-radius: 50%;
+      border: 2px solid var(--sidebar-bg);
+    }
 
-    .avatar {
-      width: 46px;
-      height: 46px;
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .user img {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid rgba(16,185,129,0.25);
-      transition: transform 0.3s ease;
     }
 
-    .avatar:hover { transform: scale(1.12); }
+    .user-info strong { font-weight: 600; }
+    .user-info small { color: var(--text-muted); }
 
-    /* ── Cards ── */
+    /* Grid */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.8rem;
-      margin-bottom: 3rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
     .card {
-      background: var(--glass);
-      backdrop-filter: var(--backdrop);
-      border: 1px solid var(--card-border);
+      background: var(--card-bg);
       border-radius: var(--radius);
-      padding: 1.8rem;
+      padding: 24px;
       box-shadow: var(--shadow);
-      transition: all 0.45s cubic-bezier(0.34,1.56,0.64,1);
-      transform: perspective(1200px) rotateX(4deg) rotateY(4deg) translateZ(0);
-      opacity: 0;
     }
 
-    .card.visible {
-      opacity: 1;
-      transform: perspective(1200px) rotateX(0) rotateY(0) translateZ(12px);
+    .stat-card {
+      text-align: center;
     }
 
-    .card:hover {
-      transform: perspective(1200px) rotateX(0) rotateY(0) translateZ(28px) scale(1.03);
-      box-shadow: var(--shadow-hover);
+    .stat-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(52, 211, 153, 0.1);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 28px;
+      color: var(--green);
     }
 
-    .card h3 {
-      font-size: 1.05rem;
+    .stat-title { font-size: 15px; color: var(--text-muted); margin-bottom: 8px; }
+    .stat-value { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .stat-change {
+      font-size: 14px;
       font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
     }
-
-    .big-number {
-      font-size: 2.6rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--green-dark), var(--green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin: 0.6rem 0;
-    }
-
-    .change {
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
     .positive { color: var(--green); }
     .negative { color: var(--red); }
 
-    /* Chart container */
-    .chart-wrapper {
-      height: 380px;
-      margin-top: 1.2rem;
+    .credit-card {
+      grid-column: span 1;
+      background: linear-gradient(135deg, #2dd4bf 0%, #0ea5e9 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Transactions section */
-    .transactions-list {
-      list-style: none;
-      margin-top: 1.2rem;
+    .credit-card .logo {
+      font-size: 28px;
+      margin-bottom: 40px;
     }
+
+    .credit-card .number {
+      font-size: 24px;
+      letter-spacing: 4px;
+      margin: 32px 0 24px;
+    }
+
+    .credit-card .footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary { background: white; color: #0f172a; }
+    .btn-outline { background: transparent; border: 1px solid white; color: white; }
+
+    .goals-section, .transactions-section {
+      grid-column: span 2;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: var(--radius);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .section-title { font-size: 18px; font-weight: 600; }
+
+    .dropdown {
+      background: var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    canvas { max-height: 320px; }
 
     .transaction-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--card-border);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.4s ease;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    .transaction-item:last-child {
-      border-bottom: none;
-    }
+    .transaction-item:last-child { border-bottom: none; }
 
-    .transaction-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .trans-desc {
+    .trans-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(52, 211, 153, 0.1);
+      border-radius: 12px;
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--green);
+      margin-right: 16px;
     }
 
-    .trans-title {
+    .trans-desc strong { display: block; }
+    .trans-date { color: var(--text-muted); font-size: 13px; }
+
+    .trans-amount.positive { color: var(--green); font-weight: 600; }
+    .trans-amount.negative { color: var(--red); font-weight: 600; }
+
+    .see-more {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--green);
       font-weight: 600;
-      font-size: 1rem;
+      text-decoration: none;
     }
 
-    .trans-date {
-      font-size: 0.85rem;
-      color: var(--text-muted);
+    @media (max-width: 1200px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .credit-card, .goals-section, .transactions-section { grid-column: span 2; }
     }
 
-    .trans-amount {
-      font-weight: 600;
-      font-size: 1rem;
-    }
-
-    /* ── Mobile-first responsive ── */
-    @media (max-width: 1024px) {
-      .sidebar { width: 78px; padding: 1.5rem 0.8rem; }
-      .sidebar .nav-link span { display: none; }
-      .sidebar .logo { font-size: 1.5rem; }
-      .main { margin-left: 78px; padding: 1.8rem 1.5rem; }
-      .search { max-width: 340px; }
-    }
-
-    @media (max-width: 768px) {
-      .dashboard { flex-direction: column; }
-      .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid rgba(226,232,240,0.5);
-        padding: 1.2rem;
-        display: flex;
-        overflow-x: auto;
-        white-space: nowrap;
-      }
-      .sidebar nav {
-        display: flex;
-        gap: 0.6rem;
-      }
-      .sidebar .nav-link {
-        min-width: 68px;
-        padding: 0.9rem 1rem;
-        flex-direction: column;
-        font-size: 0.82rem;
-      }
-      .sidebar .nav-link i { margin-bottom: 6px; font-size: 1.4rem; }
-      .sidebar .nav-link span { display: block; }
-      .sidebar .logo { display: none; }
-      .main { margin-left: 0; padding: 1.5rem 1.2rem; }
-      .header { flex-direction: column; align-items: stretch; }
-      .search { max-width: none; }
-      .grid { grid-template-columns: 1fr; gap: 1.6rem; }
-    }
-
-    @media (max-width: 480px) {
-      .main { padding: 1.2rem 1rem; }
-      .big-number { font-size: 2.1rem; }
-      .chart-wrapper { height: 320px; }
-      .transaction-item { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-      .trans-amount { align-self: flex-end; }
+    @media (max-width: 992px) {
+      .sidebar { width: 80px; padding: 24px 12px; }
+      .sidebar .menu-title, .sidebar span:not(.logo span) { display: none; }
+      .main { margin-left: 80px; }
+      .search-bar { width: 240px; }
     }
   </style>
 </head>
 <body>
-
-<div class="dashboard">
-
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-    <div class="logo">FinPro</div>
-    <nav>
-      <a href="#" class="nav-link active"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="#" class="nav-link"><i class="fas fa-wallet"></i><span>Wallets</span></a>
-      <a href="#" class="nav-link"><i class="fas fa-exchange-alt"></i><span>Tx</span></a>
-      <a href="#" class="nav-link"><i class="fas fa-chart-pie"></i><span>Analytics</span></a>
-      <a href="#" class="nav-link"><i class="fas fa-users"></i><span>Team</span></a>
-    </nav>
-  </aside>
-
-  <!-- ── Main ── -->
-  <main class="main">
-
-    <header class="header">
-      <div style="position:relative; flex:1; max-width:480px;">
-        <i class="fas fa-search search-icon"></i>
-        <input type="text" class="search" placeholder="Search anything…" />
-      </div>
-      <div class="user-area">
-        <i class="far fa-bell bell"></i>
-        <img src="https://media.istockphoto.com/id/1300972574/photo/millennial-male-team-leader-organize-virtual-workshop-with-employees-online.jpg?s=612x612&w=0&k=20&c=uP9rHJJBDzMjwgApldFmvsm4Vyjl27KzSh0NHa7XTr4=" alt="Avatar" class="avatar">
-      </div>
-    </header>
-
-    <div class="grid">
-
-      <div class="card">
-        <h3>Total Balance</h3>
-        <div class="big-number">$248,920</div>
-        <div class="change positive"><i class="fas fa-arrow-up"></i> +8.4% this month</div>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <i class="fas fa-leaf"></i> Bankas
       </div>
 
-      <div class="card">
-        <h3>Monthly Income</h3>
-        <div class="big-number">$142,580</div>
-        <div class="change positive"><i class="fas fa-arrow-up"></i> +12.1%</div>
-      </div>
+      <div class="menu-title">Menu</div>
+      <nav>
+        <a href="#" class="nav-link active"><i class="fas fa-th-large"></i> <span>Dashbord</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-exchange-alt"></i> <span>Transaction</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-chart-line"></i> <span>Investments</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-credit-card"></i> <span>Credit Cards</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-hand-holding-usd"></i> <span>Loans</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-chart-pie"></i> <span>Analytics</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-calendar-alt"></i> <span>Planning</span></a>
+      </nav>
 
-      <div class="card">
-        <h3>Monthly Expenses</h3>
-        <div class="big-number">$68,450</div>
-        <div class="change negative"><i class="fas fa-arrow-down"></i> -3.2%</div>
-      </div>
+      <div class="menu-title">Other Menu</div>
+      <nav>
+        <a href="#" class="nav-link"><i class="fas fa-question-circle"></i> <span>Helps & Support</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-file-alt"></i> <span>Report</span></a>
+        <a href="#" class="nav-link"><i class="fas fa-cog"></i> <span>Settings</span></a>
+      </nav>
 
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3>Revenue Trend • 2026</h3>
-        <div class="chart-wrapper">
-          <canvas id="revenueChart"></canvas>
+      <div class="logout">
+        <i class="fas fa-sign-out-alt"></i> <span>Log out</span>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search...."/>
+        </div>
+
+        <div class="user-area">
+          <div class="notification"><i class="far fa-bell"></i></div>
+          <div class="user">
+            <img src="https://via.placeholder.com/44?text=RA" alt="Richard Azet">
+            <div class="user-info">
+              <strong>Richard Azet</strong><br/>
+              <small>@azett.</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid">
+        <!-- Balance -->
+        <div class="card stat-card">
+          <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+          <div class="stat-title">Balance</div>
+          <div class="stat-value">$592.323</div>
+          <div class="stat-change positive">Increase Than last week <span>(+3.5%)</span></div>
+        </div>
+
+        <!-- Income -->
+        <div class="card stat-card">
+          <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+          <div class="stat-title">Income</div>
+          <div class="stat-value">$149.513</div>
+          <div class="stat-change negative">Decline Than last week <span>(-3.5%)</span></div>
+        </div>
+
+        <!-- My Cards -->
+        <div class="card credit-card">
+          <div class="logo"><i class="fas fa-leaf"></i> Bankas</div>
+          <div>VISA</div>
+          <div class="number">**** **** **** 2579</div>
+          <div class="footer">
+            <div>
+              CardHolder Name<br/>
+              <strong>Richard Azet</strong>
+            </div>
+            <div>
+              Expiry Date<br/>
+              <strong>12/25</strong>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Top Up ↓</button>
+            <button class="btn btn-outline">Transfer ↓</button>
+          </div>
+          <small style="display:block; margin-top:16px; text-align:center;">see more action</small>
+        </div>
+
+        <!-- Savings -->
+        <div class="card stat-card">
+          <div class="stat-icon"><i class="fas fa-piggy-bank"></i></div>
+          <div class="stat-title">Savings</div>
+          <div class="stat-value">$79.290</div>
+          <div class="stat-change negative">Decline Than last week <span>(-3.5%)</span></div>
+        </div>
+
+        <!-- Expenses -->
+        <div class="card stat-card">
+          <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+          <div class="stat-title">Expenses</div>
+          <div class="stat-value">$198.560</div>
+          <div class="stat-change positive">Increase Than last week <span>(+3.5%)</span></div>
+        </div>
+
+        <!-- Income Goals -->
+        <div class="goals-section card">
+          <div class="section-header">
+            <h3 class="section-title">Income Goals</h3>
+            <div>
+              <span style="color:var(--green);">• Achieved</span> <span style="color:var(--text-muted);">• Target</span>
+              <select class="dropdown"><option>Monthly</option></select>
+            </div>
+          </div>
+          <canvas id="goalsChart" height="180"></canvas>
+        </div>
+
+        <!-- History Transaction -->
+        <div class="transactions-section card">
+          <h3 class="section-title">History Transaction</h3>
+          <div class="transaction-item">
+            <div style="display:flex; align-items:center;">
+              <div class="trans-icon"><i class="fas fa-exchange-alt"></i></div>
+              <div>
+                <strong>Transfer to Yanuel Erik</strong>
+                <div class="trans-date">12 January 2024</div>
+              </div>
+            </div>
+            <div class="trans-amount negative">- $30.00</div>
+          </div>
+
+          <div class="transaction-item">
+            <div style="display:flex; align-items:center;">
+              <div class="trans-icon" style="background:rgba(248,113,113,0.1); color:var(--red);"><i class="fas fa-shopping-bag"></i></div>
+              <div>
+                <strong>Shopping at Okemart</strong>
+                <div class="trans-date">11 January 2024</div>
+              </div>
+            </div>
+            <div class="trans-amount negative">- $16.25</div>
+          </div>
+
+          <div class="transaction-item">
+            <div style="display:flex; align-items:center;">
+              <div class="trans-icon"><i class="fas fa-exchange-alt"></i></div>
+              <div>
+                <strong>Receive from Yuliano Vidi</strong>
+                <div class="trans-date">07 January 2024</div>
+              </div>
+            </div>
+            <div class="trans-amount positive">+ $10.00</div>
+          </div>
+
+          <a href="#" class="see-more">See More</a>
         </div>
       </div>
+    </main>
+  </div>
 
-      <div class="card" style="grid-column: 1 / -1;">
-        <h3>Recent Transactions</h3>
-        <ul class="transactions-list">
-          <li class="transaction-item">
-            <div class="trans-desc">
-              <span class="trans-title">Salary Deposit</span>
-              <span class="trans-date">Feb 1, 2026 • 09:45 AM</span>
-            </div>
-            <span class="trans-amount positive">+$8,450.00</span>
-          </li>
-          <li class="transaction-item">
-            <div class="trans-desc">
-              <span class="trans-title">Cloud Hosting</span>
-              <span class="trans-date">Jan 30, 2026 • 02:20 PM</span>
-            </div>
-            <span class="trans-amount negative">-$320.00</span>
-          </li>
-          <li class="transaction-item">
-            <div class="trans-desc">
-              <span class="trans-title">Freelance Payment</span>
-              <span class="trans-date">Jan 28, 2026 • 11:10 AM</span>
-            </div>
-            <span class="trans-amount positive">+$4,200.00</span>
-          </li>
-          <li class="transaction-item">
-            <div class="trans-desc">
-              <span class="trans-title">Software Subscription</span>
-              <span class="trans-date">Jan 25, 2026 • 04:50 PM</span>
-            </div>
-            <span class="trans-amount negative">-$18.00</span>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
-  </main>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script>
-// Entrance animations
-document.addEventListener('DOMContentLoaded', () => {
-  const cards = document.querySelectorAll('.card');
-  cards.forEach((card, i) => {
-    setTimeout(() => card.classList.add('visible'), 120 * i);
-  });
-
-  const transItems = document.querySelectorAll('.transaction-item');
-  transItems.forEach((item, i) => {
-    setTimeout(() => item.classList.add('visible'), 200 + 150 * i);
-  });
-
-  // Chart
-  const ctx = document.getElementById('revenueChart')?.getContext('2d');
-  if (ctx) {
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('goalsChart').getContext('2d');
     new Chart(ctx, {
-      type: 'line',
+      type: 'bar',
       data: {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-        datasets: [{
-          label: 'Revenue',
-          data: [72000,81000,68000,95000,112000,98000,128000,142000,155000,168000,182000,198000],
-          borderColor: 'rgba(16,185,129,0.9)',
-          backgroundColor: 'rgba(16,185,129,0.14)',
-          tension: 0.42,
-          fill: true,
-          pointBackgroundColor: '#fff',
-          pointBorderColor: '#10b981',
-          pointBorderWidth: 3,
-          pointRadius: 5,
-          pointHoverRadius: 9,
-        }]
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        datasets: [
+          {
+            label: 'Achieved',
+            data: [18, 22, 30, 35, 32, 28, 12, 15, 22],
+            backgroundColor: 'rgba(52, 211, 153, 0.8)',
+            borderRadius: 8,
+          },
+          {
+            label: 'Target',
+            data: [20, 30, 40, 35, 40, 30, 20, 20, 30],
+            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+            borderRadius: 8,
+          }
+        ]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          x: { grid: { color: 'rgba(226,232,240,0.4)' }, ticks: { color: '#64748b' } },
-          y: { grid: { color: 'rgba(226,232,240,0.4)' }, ticks: { color: '#64748b' } }
-        },
-        interaction: { mode: 'index', intersect: false }
+          x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.6)' } },
+          y: {
+            grid: { color: 'rgba(255,255,255,0.08)' },
+            ticks: { color: 'rgba(255,255,255,0.6)', callback: v => v + 'k' }
+          }
+        }
       }
     });
-  }
-});
-</script>
-
+  </script>
 </body>
 </html>
