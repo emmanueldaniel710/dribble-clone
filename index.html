@@ -278,6 +278,21 @@
 
     .btn:hover { opacity: 0.92; transform: translateY(-1px); }
 
+    .goals-section {
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .goals-chart-wrapper {
+      height: 180px;
+      margin-top: 12px;
+    }
+
     .transactions-section {
       grid-column: 3 / 4;
       grid-row: 3 / 4;
@@ -337,17 +352,12 @@
 
     .see-more:hover { color: var(--green-dark); text-decoration: underline; }
 
-    /* Chart styling – compact */
-    .goals-chart-wrapper {
-      height: 180px;
-      margin-top: 12px;
-    }
-
     canvas { max-height: 180px; }
 
     /* Responsive */
     @media (max-width: 1200px) {
       .grid { grid-template-columns: repeat(2, 1fr); }
+      .goals-section { grid-column: span 2; grid-row: auto; }
       .credit-card, .transactions-section {
         grid-column: span 1;
         grid-row: auto;
@@ -447,22 +457,12 @@
 
       <div class="grid">
 
-        <!-- Balance + Income Goals chart underneath -->
-        <div class="card" style="grid-row: span 2;">
-          <div class="stat-card" style="padding-bottom:0;">
-            <div class="stat-icon"><i class="fas fa-wallet"></i></div>
-            <div class="stat-title">Balance</div>
-            <div class="stat-value">$592.323</div>
-            <div class="stat-change positive">+3.5% last week</div>
-          </div>
-
-          <!-- Income Goals mini chart -->
-          <div style="margin-top: 20px;">
-            <h4 style="font-size:15px; font-weight:600; margin-bottom:10px; color:var(--text);">Income Goals</h4>
-            <div class="goals-chart-wrapper">
-              <canvas id="goalsChart"></canvas>
-            </div>
-          </div>
+        <!-- Balance -->
+        <div class="card stat-card">
+          <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+          <div class="stat-title">Balance</div>
+          <div class="stat-value">$592.323</div>
+          <div class="stat-change positive">+3.5% last week</div>
         </div>
 
         <!-- Income -->
@@ -471,21 +471,6 @@
           <div class="stat-title">Income</div>
           <div class="stat-value">$149.513</div>
           <div class="stat-change negative">-3.5% last week</div>
-        </div>
-
-        <!-- Credit Card (smaller) -->
-        <div class="card credit-card">
-          <div class="logo"><i class="fas fa-leaf"></i> Bankas</div>
-          <div>VISA</div>
-          <div class="number">**** **** **** 2579</div>
-          <div class="footer">
-            <div>Richard Azet<br/><strong>Cardholder</strong></div>
-            <div>12/25<br/><strong>Expiry</strong></div>
-          </div>
-          <div class="actions">
-            <button class="btn btn-primary">Top Up</button>
-            <button class="btn btn-outline">Transfer</button>
-          </div>
         </div>
 
         <!-- Savings -->
@@ -502,6 +487,29 @@
           <div class="stat-title">Expenses</div>
           <div class="stat-value">$198.560</div>
           <div class="stat-change positive">+3.5% last week</div>
+        </div>
+
+        <!-- Income Goals Chart – placed under the four stat cards -->
+        <div class="goals-section card">
+          <h3 class="section-title">Income Goals (Monthly)</h3>
+          <div class="goals-chart-wrapper">
+            <canvas id="goalsChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Credit Card -->
+        <div class="card credit-card">
+          <div class="logo"><i class="fas fa-leaf"></i> Bankas</div>
+          <div>VISA</div>
+          <div class="number">**** **** **** 2579</div>
+          <div class="footer">
+            <div>Richard Azet<br/><strong>Cardholder</strong></div>
+            <div>12/25<br/><strong>Expiry</strong></div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary">Top Up</button>
+            <button class="btn btn-outline">Transfer</button>
+          </div>
         </div>
 
         <!-- Recent Transactions -->
